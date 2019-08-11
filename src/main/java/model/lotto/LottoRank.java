@@ -1,4 +1,4 @@
-package model;
+package model.lotto;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -23,8 +23,8 @@ public enum LottoRank {
             return Optional.of(SECOND);
         }
         return Stream.of(LottoRank.values())
-                .filter(rank -> rank.numberOfMatches == numberOfMatches)
-                .findAny();
+                    .filter(rank -> rank.numberOfMatches == numberOfMatches)
+                    .findAny();
     }
 
     public int numberOfMatches() {

@@ -1,6 +1,4 @@
-package model;
-
-import org.apache.commons.lang3.StringUtils;
+package model.lotto;
 
 import java.util.Objects;
 import java.util.stream.IntStream;
@@ -20,13 +18,6 @@ public class LottoNumber implements Comparable<LottoNumber> {
             throw new IllegalArgumentException();
         }
         return CACHE[i - 1];
-    }
-
-    public static LottoNumber of(String input) {
-        if (!StringUtils.isNumeric(input.trim())) {
-            throw new IllegalArgumentException();
-        }
-        return of(Integer.parseInt(input.trim()));
     }
 
     private LottoNumber(int i) {
@@ -51,8 +42,8 @@ public class LottoNumber implements Comparable<LottoNumber> {
         if (!(o instanceof LottoNumber)) {
             return false;
         }
-        LottoNumber number = (LottoNumber) o;
-        return this.val == number.val;
+        LottoNumber rhs = (LottoNumber) o;
+        return this.val == rhs.val;
     }
 
     @Override

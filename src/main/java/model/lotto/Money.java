@@ -1,25 +1,21 @@
-package model;
+package model.lotto;
 
 import java.util.Objects;
 
 public class Money {
-    private static final int MIN_MONEY = 0;
+    private static final int MIN = 0;
 
     private final int amount;
 
     public Money(int amount) {
-        if (amount < MIN_MONEY) {
+        if (amount < MIN) {
             throw new IllegalArgumentException();
         }
         this.amount = amount;
     }
 
-    public Money(String input) {
-        this(Integer.parseInt(input.trim()));
-    }
-
     public double earningRate(Money investment) {
-        return (this.amount / (double) investment.amount() - 1.0) * 100.0;
+        return (this.amount / (double) investment.amount - 1.0) * 100.0;
     }
 
     public int amount() {
@@ -39,8 +35,8 @@ public class Money {
         if (!(o instanceof Money)) {
             return false;
         }
-        Money money = (Money) o;
-        return this.amount == money.amount;
+        final Money rhs = (Money) o;
+        return this.amount == rhs.amount;
     }
 
     @Override

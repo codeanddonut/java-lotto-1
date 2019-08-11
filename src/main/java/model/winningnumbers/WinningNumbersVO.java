@@ -1,9 +1,12 @@
-package model;
+package model.winningnumbers;
+
+import model.lotto.Lotto;
+import model.lotto.LottoNumber;
 
 import java.util.Collections;
 import java.util.List;
 
-public class WinningNumbersVO {
+public class WinningNumbersVO implements WinningNumbers {
     private final List<LottoNumber> winningNumbers;
     private final int round;
 
@@ -12,14 +15,17 @@ public class WinningNumbersVO {
         this.round = round;
     }
 
-    public List<LottoNumber> mainNumbers() {
+    @Override
+    public List<LottoNumber> mains() {
         return this.winningNumbers.subList(0, Lotto.NUMBER_OF_PICKS);
     }
 
-    public LottoNumber bonusNumber() {
+    @Override
+    public LottoNumber bonus() {
         return this.winningNumbers.get(Lotto.NUMBER_OF_PICKS);
     }
 
+    @Override
     public int round() {
         return this.round;
     }

@@ -1,22 +1,25 @@
 package controller;
 
-import model.*;
+import model.lotto.Lotto;
+import model.lotto.LottoPurchaseQuantity;
+import model.lotto.Lottos;
+import model.winningnumbers.WinningNumbers;
+import model.winningnumbers.WinningNumbersFactory;
 
 import java.util.List;
 
 import static view.InputView.*;
 import static view.OutputView.*;
 
-
 public class App {
     public static void main(String[] argc) {
-        final WinningNumbers winningNumbers = WinningNumbersFactory.ofRecent();
-        final LottoPurchaseAmount purchaseAmount = inputAmountOfManualPicks(inputAmountOfMoney());
-        final List<Lotto> manualLottos = inputManualLottoNumbers(purchaseAmount);
-        printPurchaseAmount(purchaseAmount);
-        final Lottos lottos = new Lottos(manualLottos, purchaseAmount);
+        final LottoPurchaseQuantity purchaseQuantity = inputAmountOfManualPicks(inputAmountOfMoney());
+        final List<Lotto> manualLottos = inputManualLottoNumbers(purchaseQuantity);
+        printPurchaseQuantity(purchaseQuantity);
+        final Lottos lottos = new Lottos(manualLottos, purchaseQuantity);
         printLottos(lottos);
+        final WinningNumbers winningNumbers = WinningNumbersFactory.ofRecent();
         printWinningNumbers(winningNumbers);
-        printResult(lottos.getResult(winningNumbers));
+        printResult(lottos, winningNumbers);
     }
 }

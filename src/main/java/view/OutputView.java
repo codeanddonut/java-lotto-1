@@ -1,30 +1,35 @@
 package view;
 
-import model.*;
+import model.lotto.LottoPurchaseQuantity;
+import model.lotto.LottoRank;
+import model.lotto.LottoResult;
+import model.lotto.Lottos;
+import model.winningnumbers.WinningNumbers;
 
 import java.text.NumberFormat;
 
 public class OutputView {
-    public static void printPurchaseAmount(LottoPurchaseAmount purchaseAmount) {
+    public static void printPurchaseQuantity(LottoPurchaseQuantity purchaseQuantity) {
         System.out.println(
-                "\n수동으로 " + purchaseAmount.manual() + "장, 자동으로 " + purchaseAmount.auto() + "개를 구매했습니다."
+                "\n수동으로 " + purchaseQuantity.manual() + "장, 자동으로 " + purchaseQuantity.auto() + "개를 구매했습니다."
         );
     }
 
     public static void printLottos(Lottos lottos) {
-        lottos.forEach(lotto -> System.out.println(lotto));
+        lottos.forEach(System.out::println);
     }
 
     public static void printWinningNumbers(WinningNumbers winningNumbers) {
         System.out.println(
             "\n금주의 당첨 번호 : "
-            + winningNumbers.mainNumbers()
+            + winningNumbers.mains()
             + " + 보너스 번호 "
-            + winningNumbers.bonusNumber()
+            + winningNumbers.bonus()
         );
     }
 
-    public static void printResult(LottoResult result) {
+    public static void printResult(Lottos lottos, WinningNumbers winningNumbers) {
+        final LottoResult result = lottos.result(winningNumbers);
         System.out.println("\n당첨 통계\n---------");
         result.forEach(x -> {
             System.out.println(

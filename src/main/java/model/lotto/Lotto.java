@@ -1,16 +1,17 @@
-package model;
+package model.lotto;
+
+import model.winningnumbers.WinningNumbers;
 
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class Lotto {
     public static final int PRICE = 1000;
     public static final int NUMBER_OF_PICKS = 6;
 
     private static final List<LottoNumber> balls = IntStream.rangeClosed(LottoNumber.MIN, LottoNumber.MAX)
-                                                            .mapToObj(i -> LottoNumber.of(i))
+                                                            .mapToObj(LottoNumber::of)
                                                             .collect(Collectors.toList());
 
     private final List<LottoNumber> numbers;
@@ -24,33 +25,26 @@ public class Lotto {
         if (numbers.size() != NUMBER_OF_PICKS) {
             throw new IllegalArgumentException();
         }
-        this.numbers = new ArrayList<>(numbers).stream()
+        this.numbers = (new ArrayList<>(numbers)).stream()
                                                 .sorted()
-                                                .collect(Collectors.collectingAndThen(
-                                                        Collectors.toList(),
-                                                        Collections::unmodifiableList)
+                                                .collect(
+                                                        Collectors.collectingAndThen(
+                                                                Collectors.toList(),
+                                                                Collections::unmodifiableList
+                                                        )
                                                 );
     }
 
-    public Lotto(String input) {
-        this(
-            Stream.of(input.split(","))
-                    .filter(x -> x.trim().length() != 0)
-                    .map(i -> LottoNumber.of(i))
-                    .collect(Collectors.toSet())
-        );
-    }
-
     public Optional<LottoRank> match(WinningNumbers winningNumbers) {
-        Set<LottoNumber> intersectionTest = new HashSet<>(this.numbers);
-        intersectionTest.removeAll(winningNumbers.mainNumbers());
+        final Set<LottoNumber> intersection = new HashSet<>(this.numbers);
+        intersection.removeAll(winningNumbers.mains());
         return LottoRank.valueOf(
-                Lotto.NUMBER_OF_PICKS - intersectionTest.size(),
-                intersectionTest.contains(winningNumbers.bonusNumber())
+                NUMBER_OF_PICKS - intersection.size(),
+                intersection.contains(winningNumbers.bonus())
         );
     }
 
-    public List<LottoNumber> getNumbers() {
+    public List<LottoNumber> numbers() {
         return this.numbers;
     }
 
