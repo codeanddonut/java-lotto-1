@@ -1,10 +1,10 @@
 package controller;
 
-import model.lotto.Lotto;
-import model.lotto.LottoPurchaseQuantity;
-import model.lotto.Lottos;
-import model.winningnumbers.WinningNumbers;
-import model.winningnumbers.WinningNumbersFactory;
+import domain.lotto.Lotto;
+import domain.lotto.LottoPurchaseQuantity;
+import domain.lotto.Lottos;
+import domain.lotto.WinningNumbers;
+import service.WinningNumbersFactory;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import static view.OutputView.*;
 
 public class App {
     public static void main(String[] argc) {
-        final LottoPurchaseQuantity purchaseQuantity = inputAmountOfManualPicks(inputAmountOfMoney());
+        final LottoPurchaseQuantity purchaseQuantity = inputQuantityOfManualPicks(inputAmountOfMoney());
         final List<Lotto> manualLottos = inputManualLottoNumbers(purchaseQuantity);
         printPurchaseQuantity(purchaseQuantity);
         final Lottos lottos = new Lottos(manualLottos, purchaseQuantity);

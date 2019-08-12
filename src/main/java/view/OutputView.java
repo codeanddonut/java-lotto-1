@@ -1,10 +1,6 @@
 package view;
 
-import model.lotto.LottoPurchaseQuantity;
-import model.lotto.LottoRank;
-import model.lotto.LottoResult;
-import model.lotto.Lottos;
-import model.winningnumbers.WinningNumbers;
+import domain.lotto.*;
 
 import java.text.NumberFormat;
 

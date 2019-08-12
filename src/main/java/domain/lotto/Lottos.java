@@ -1,12 +1,11 @@
-package model.lotto;
-
-import model.winningnumbers.WinningNumbers;
+package domain.lotto;
 
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Lottos implements Iterable<Lotto> {
     private final List<Lotto> lottos;
@@ -30,8 +29,8 @@ public class Lottos implements Iterable<Lotto> {
         return this.lottos.size();
     }
 
-    public List<Lotto> asList() {
-        return this.lottos;
+    public Stream<Lotto> stream() {
+        return this.lottos.stream();
     }
 
     @Override

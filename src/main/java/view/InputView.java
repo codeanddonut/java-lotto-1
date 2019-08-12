@@ -1,9 +1,9 @@
 package view;
 
-import model.lotto.Lotto;
-import model.lotto.LottoNumber;
-import model.lotto.LottoPurchaseQuantity;
-import model.lotto.Money;
+import domain.lotto.Lotto;
+import domain.lotto.LottoNumber;
+import domain.lotto.LottoPurchaseQuantity;
+import domain.lotto.Money;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ public class InputView {
         );
     }
 
-    public static LottoPurchaseQuantity inputAmountOfManualPicks(Money investment) {
+    public static LottoPurchaseQuantity inputQuantityOfManualPicks(Money investment) {
         System.out.println("\n수동으로 구매할 로또 수를 입력해 주세요.");
         return TryUntilSuccess.run(() ->
             new LottoPurchaseQuantity(investment, Integer.parseInt(input.nextLine().trim()))

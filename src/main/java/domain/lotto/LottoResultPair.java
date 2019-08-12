@@ -1,10 +1,10 @@
-package model.lotto;
+package domain.lotto;
 
-public class LottoResultTable {
+public class LottoResultPair {
     private final LottoRank rank;
     private final int number;
 
-    public LottoResultTable(LottoRank rank, int number) {
+    public LottoResultPair(LottoRank rank, int number) {
         this.rank = rank;
         this.number = number;
     }

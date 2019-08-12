@@ -1,32 +1,26 @@
-package model.winningnumbers;
-
-import model.lotto.Lotto;
-import model.lotto.LottoNumber;
+package domain.lotto;
 
 import java.util.Collections;
 import java.util.List;
 
-public class WinningNumbersVO implements WinningNumbers {
+public class WinningNumbers {
     private final List<LottoNumber> winningNumbers;
-    private final int round;
+    private final Round round;
 
-    public WinningNumbersVO(List<LottoNumber> winningNumbers, int round) {
+    public WinningNumbers(List<LottoNumber> winningNumbers, Round round) {
         this.winningNumbers = Collections.unmodifiableList(winningNumbers);
         this.round = round;
     }
 
-    @Override
     public List<LottoNumber> mains() {
         return this.winningNumbers.subList(0, Lotto.NUMBER_OF_PICKS);
     }
 
-    @Override
     public LottoNumber bonus() {
         return this.winningNumbers.get(Lotto.NUMBER_OF_PICKS);
     }
 
-    @Override
-    public int round() {
+    public Round round() {
         return this.round;
     }
 }

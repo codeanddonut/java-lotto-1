@@ -1,6 +1,4 @@
-package model.lotto;
-
-import model.winningnumbers.WinningNumbers;
+package domain.lotto;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -36,11 +34,11 @@ public class Lotto {
     }
 
     public Optional<LottoRank> match(WinningNumbers winningNumbers) {
-        final Set<LottoNumber> intersection = new HashSet<>(this.numbers);
-        intersection.removeAll(winningNumbers.mains());
+        final Set<LottoNumber> complement = new HashSet<>(this.numbers);
+        complement.removeAll(winningNumbers.mains());
         return LottoRank.valueOf(
-                NUMBER_OF_PICKS - intersection.size(),
-                intersection.contains(winningNumbers.bonus())
+                NUMBER_OF_PICKS - complement.size(),
+                complement.contains(winningNumbers.bonus())
         );
     }
 

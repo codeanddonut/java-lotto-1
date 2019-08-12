@@ -1,4 +1,4 @@
-package model.lotto;
+package domain.lotto;
 
 public class LottoPurchaseQuantity {
     private final int auto;

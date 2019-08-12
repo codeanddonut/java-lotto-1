@@ -1,4 +1,4 @@
-package model.lotto;
+package domain.lotto;
 
 import java.util.Optional;
 import java.util.stream.Stream;

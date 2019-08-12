@@ -3,8 +3,8 @@ package controller;
 import spark.Response;
 import view.WebView;
 
-public class Error {
-    public static String orThrow(SupplierWithException<String, Exception> f, Response res) {
+public class Try {
+    public static String orThrow(SubroutineWithException<String, Exception> f, Response res) {
         try {
             return f.get();
         } catch (Exception e) {
