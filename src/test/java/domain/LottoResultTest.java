@@ -1,6 +1,9 @@
-package model;
+package domain;
 
+import domain.lotto.*;
 import org.junit.jupiter.api.Test;
+import service.LottoWinningNumbersFactory;
+import test.TestLottoGenerator;
 
 import java.util.Arrays;
 
@@ -8,10 +11,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.offset;
 
 class LottoResultTest {
-    Lotto a = new Lotto("1, 2, 3, 4, 5, 6");
-    Lotto b = new Lotto("10, 34, 38, 30, 31, 33");
-    Lotto c = new Lotto("10, 34, 38, 40, 42, 32");
-    LottoResult result = new LottoResult(Arrays.asList(a, b, c), WinningNumbersFactory.of(862));
+    final Lotto a = TestLottoGenerator.make("1, 2, 3, 4, 5, 6");
+    final Lotto b = TestLottoGenerator.make("10, 34, 38, 30, 31, 33");
+    final Lotto c = TestLottoGenerator.make("10, 34, 38, 40, 42, 32");
+    final LottoResult result = new LottoResult(
+            new Lottos(
+                    Arrays.asList(a, b, c),
+                    new LottoPurchaseQuantity(new Money(3000), 3)
+            ),
+            LottoWinningNumbersFactory.of(new LottoRound(862)));
 
     @Test
     void purchasedAmountTest() {
@@ -20,7 +28,7 @@ class LottoResultTest {
 
     @Test
     void totalAmountTest() {
-        assertThat(result.totalAmount().amount()).isEqualTo(30_005_000);
+        assertThat(result.totalEarned().amount()).isEqualTo(30_005_000);
     }
 
     @Test

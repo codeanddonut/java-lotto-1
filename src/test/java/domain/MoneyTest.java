@@ -1,5 +1,6 @@
-package model;
+package domain;
 
+import domain.lotto.Money;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
@@ -9,6 +10,7 @@ class MoneyTest {
     void underflowTest() {
         assertThatThrownBy(() -> new Money(-255));
     }
+
     @Test
     void amountTest() {
         assertThat(new Money(65535).amount()).isEqualTo(65535);
@@ -22,5 +24,10 @@ class MoneyTest {
     @Test
     void earningRateTestB() {
         assertThat(new Money(30000000).earningRate(new Money(20000))).isCloseTo(149900.0, offset(0.0000001));
+    }
+
+    @Test
+    void equalityTest() {
+        assertThat(new Money(12345)).isEqualTo(new Money(12345));
     }
 }

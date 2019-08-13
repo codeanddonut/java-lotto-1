@@ -1,5 +1,6 @@
-package model;
+package domain;
 
+import domain.lotto.LottoRank;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
