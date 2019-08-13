@@ -33,7 +33,7 @@ public class Lotto {
                                                 );
     }
 
-    public Optional<LottoRank> match(WinningNumbers winningNumbers) {
+    public Optional<LottoRank> match(LottoWinningNumbers winningNumbers) {
         final Set<LottoNumber> complement = new HashSet<>(this.numbers);
         complement.removeAll(winningNumbers.mains());
         return LottoRank.valueOf(

@@ -1,8 +1,8 @@
 package service;
 
 import service.exception.NoWinningNumbersInDBException;
-import domain.lotto.Round;
-import domain.lotto.WinningNumbers;
+import domain.lotto.LottoRound;
+import domain.lotto.LottoWinningNumbers;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
@@ -10,36 +10,36 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WinningNumbersFactory {
-    private static final Map<Round, WinningNumbers> CACHE = new HashMap<>();
+public class LottoWinningNumbersFactory {
+    private static final Map<LottoRound, LottoWinningNumbers> CACHE = new HashMap<>();
 
-    private static WinningNumbers recent;
+    private static LottoWinningNumbers recent;
     static {
-        recent = WinningNumbersFactoryWeb.of();
-        WinningNumbersDAO.register(recent);
+        recent = LottoWinningNumbersFactoryWeb.of();
+        LottoWinningNumbersDAO.register(recent);
         CACHE.put(recent.round(), recent);
     }
     private static LocalDateTime scheduledFetchDate = nextAnnouncementDate();
 
-    public static WinningNumbers of(Round round) {
+    public static LottoWinningNumbers of(LottoRound round) {
         if (round.val() < 0) {
             throw new IllegalArgumentException();
         }
-        if (round.val() == Round.RECENT_ROUND) {
+        if (round.val() == LottoRound.RECENT_ROUND) {
             return ofRecent();
         }
         try {
-            CACHE.computeIfAbsent(round, WinningNumbersFactoryDB::of);
+            CACHE.computeIfAbsent(round, LottoWinningNumbersFactoryDB::of);
             return CACHE.get(round);
         } catch (NoWinningNumbersInDBException e) {
-            final WinningNumbers fetched = WinningNumbersFactoryWeb.of(round);
-            WinningNumbersDAO.register(fetched);
+            final LottoWinningNumbers fetched = LottoWinningNumbersFactoryWeb.of(round);
+            LottoWinningNumbersDAO.register(fetched);
             CACHE.put(round, fetched);
             return fetched;
         }
     }
 
-    public static WinningNumbers ofRecent() {
+    public static LottoWinningNumbers ofRecent() {
         if (LocalDateTime.now().isAfter(scheduledFetchDate)) {
             refresh();
         }
@@ -47,11 +47,11 @@ public class WinningNumbersFactory {
     }
 
     private static void refresh() {
-        final WinningNumbers newRecent = WinningNumbersFactoryWeb.of();
+        final LottoWinningNumbers newRecent = LottoWinningNumbersFactoryWeb.of();
         if (newRecent.round().val() > recent.round().val()) {
             recent = newRecent;
             scheduledFetchDate = nextAnnouncementDate();
-            WinningNumbersDAO.register(recent);
+            LottoWinningNumbersDAO.register(recent);
         }
     }
 
@@ -65,5 +65,5 @@ public class WinningNumbersFactory {
         return (nextSaturdayOrToday.equals(nextSaturday)) ? nextSaturday : nextSaturdayOrToday;
     }
 
-    private WinningNumbersFactory() {}
+    private LottoWinningNumbersFactory() {}
 }

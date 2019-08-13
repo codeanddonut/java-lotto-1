@@ -2,19 +2,19 @@ package domain.lotto;
 
 import java.util.Objects;
 
-public class Round {
+public class LottoRound {
     public static final int RECENT_ROUND = 0;
 
     private final int round;
 
-    public Round(int number) {
+    public LottoRound(int number) {
         if (number < 0) {
             throw new IllegalArgumentException();
         }
         this.round = number;
     }
 
-    public Round() {
+    public LottoRound() {
         this.round = RECENT_ROUND;
     }
 
@@ -32,10 +32,10 @@ public class Round {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Round)) {
+        if (!(o instanceof LottoRound)) {
             return false;
         }
-        Round rhs = (Round) o;
+        LottoRound rhs = (LottoRound) o;
         return this.round == rhs.round;
     }
 

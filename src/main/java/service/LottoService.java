@@ -7,14 +7,14 @@ import java.sql.Timestamp;
 import java.util.List;
 
 public class LottoService {
-    public static LottoPurchaseBill purchase(Money investment, Round round, List<Lotto> manualLottos)
+    public static LottoPurchaseBill purchase(Money investment, LottoRound round, List<Lotto> manualLottos)
             throws SQLException {
         final Lottos lottos = new Lottos(
                 manualLottos,
                 new LottoPurchaseQuantity(investment, manualLottos.size())
         );
         LottoPurchaseHistoryDAO.save(round, lottos);
-        return new LottoPurchaseBill(round, lottos);
+        return new LottoPurchaseBill(lottos, LottoWinningNumbersFactory.of(round));
     }
 
     public static LottoPurchaseBill history(Timestamp date) throws SQLException, IllegalArgumentException {

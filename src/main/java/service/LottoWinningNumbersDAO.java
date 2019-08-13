@@ -1,8 +1,8 @@
 package service;
 
 import domain.lotto.Lotto;
-import domain.lotto.Round;
-import domain.lotto.WinningNumbers;
+import domain.lotto.LottoRound;
+import domain.lotto.LottoWinningNumbers;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,8 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WinningNumbersDAO {
-    protected static List<Integer> fetch(Round round) throws SQLException {
+public class LottoWinningNumbersDAO {
+    protected static List<Integer> fetch(LottoRound round) throws SQLException {
         final DBConnection dbConnection = DBConnection.getInstance();
         final PreparedStatement pstmt = dbConnection.connect().prepareStatement(
                 "SELECT round, first_num, second_num, third_num, fourth_num, fifth_num, sixth_num, bonus_num " +
@@ -33,7 +33,7 @@ public class WinningNumbersDAO {
         return fetched;
     }
 
-    public static void register(WinningNumbers winningNumbers) {
+    public static void register(LottoWinningNumbers winningNumbers) {
         try {
             final DBConnection dbConnection = DBConnection.getInstance();
             final PreparedStatement pstmt = dbConnection.connect().prepareStatement(

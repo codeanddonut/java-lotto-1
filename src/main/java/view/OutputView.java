@@ -15,7 +15,7 @@ public class OutputView {
         lottos.forEach(System.out::println);
     }
 
-    public static void printWinningNumbers(WinningNumbers winningNumbers) {
+    public static void printWinningNumbers(LottoWinningNumbers winningNumbers) {
         System.out.println(
             "\n금주의 당첨 번호 : "
             + winningNumbers.mains()
@@ -24,7 +24,7 @@ public class OutputView {
         );
     }
 
-    public static void printResult(Lottos lottos, WinningNumbers winningNumbers) {
+    public static void printResult(Lottos lottos, LottoWinningNumbers winningNumbers) {
         final LottoResult result = lottos.result(winningNumbers);
         System.out.println("\n당첨 통계\n---------");
         result.forEach(x -> {

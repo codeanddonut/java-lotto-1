@@ -3,8 +3,8 @@ package service;
 import service.exception.FailedFetchingWinningNumbersFromWebException;
 import domain.lotto.Lotto;
 import domain.lotto.LottoNumber;
-import domain.lotto.Round;
-import domain.lotto.WinningNumbers;
+import domain.lotto.LottoRound;
+import domain.lotto.LottoWinningNumbers;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,18 +16,18 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class WinningNumbersFactoryWeb {
+public class LottoWinningNumbersFactoryWeb {
     private static final String NANUM_LOTTERY_URL = "https://m.dhlottery.co.kr/gameResult.do?method=byWin";
 
-    public static WinningNumbers of(Round round) {
+    public static LottoWinningNumbers of(LottoRound round) {
         return fetch(round);
     }
 
-    public static WinningNumbers of() {
-        return fetch(new Round(0));
+    public static LottoWinningNumbers of() {
+        return fetch(new LottoRound(0));
     }
 
-    private static WinningNumbers fetch(Round round) {
+    private static LottoWinningNumbers fetch(LottoRound round) {
         try {
             final String html = winningNumbersHttpRequest(round);
             final List<LottoNumber> numbers = new ArrayList<>();
@@ -38,7 +38,7 @@ public class WinningNumbersFactoryWeb {
             }
             if (numbers.size() != Lotto.NUMBER_OF_PICKS + 1) {
                 if (round.val() != 0) {
-                    return fetch(new Round());
+                    return fetch(new LottoRound());
                 }
                 throw new FailedFetchingWinningNumbersFromWebException();
             }
@@ -46,20 +46,20 @@ public class WinningNumbersFactoryWeb {
                 final Matcher roundMatcher = Pattern.compile("<option value=\"[0-9]+\" >").matcher(html);
                 roundMatcher.find();
                 final String token = roundMatcher.group();
-                return new WinningNumbers(
+                return new LottoWinningNumbers(
                         numbers,
-                        new Round(Integer.parseInt(token.substring(15, token.lastIndexOf("\""))))
+                        new LottoRound(Integer.parseInt(token.substring(15, token.lastIndexOf("\""))))
                 );
             }
-            return new WinningNumbers(numbers, round);
+            return new LottoWinningNumbers(numbers, round);
         } catch (IOException e) {
             throw new FailedFetchingWinningNumbersFromWebException();
         }
     }
 
-    private static String winningNumbersHttpRequest(Round round) throws IOException {
+    private static String winningNumbersHttpRequest(LottoRound round) throws IOException {
         final StringBuilder html = new StringBuilder();
-        final String roundAttr = (round.val() == Round.RECENT_ROUND) ? "" : "&drwNo=" + round;
+        final String roundAttr = (round.val() == LottoRound.RECENT_ROUND) ? "" : "&drwNo=" + round;
         final HttpURLConnection con = (HttpURLConnection) new URL(NANUM_LOTTERY_URL + roundAttr).openConnection();
         final BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), "euc-kr"));
         for (String inputLine = ""; inputLine != null; inputLine = in.readLine()) {
@@ -70,5 +70,5 @@ public class WinningNumbersFactoryWeb {
         return html.toString();
     }
 
-    private WinningNumbersFactoryWeb() {}
+    private LottoWinningNumbersFactoryWeb() {}
 }

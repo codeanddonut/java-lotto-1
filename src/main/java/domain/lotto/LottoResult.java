@@ -11,7 +11,7 @@ public class LottoResult implements Iterable<LottoResultPair> {
     private final Money purchasedAmount;
     private final Money totalEarned;
 
-    public LottoResult(Lottos lottos, WinningNumbers winningNumbers) {
+    public LottoResult(Lottos lottos, LottoWinningNumbers winningNumbers) {
         this.results = lottos.stream().map(l -> l.match(winningNumbers))
                                         .flatMap(r -> r.map(Stream::of).orElseGet(Stream::empty))
                                         .collect(Collectors.groupingBy(LottoRank::prize))

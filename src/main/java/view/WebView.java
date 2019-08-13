@@ -1,7 +1,7 @@
 package view;
 
 import domain.lotto.*;
-import service.LottoPurchaseBill;
+import domain.lotto.LottoPurchaseBill;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
@@ -27,7 +27,7 @@ public class WebView {
                 "</div>";
     }
 
-    public static String printIndex(List<Timestamp> dates, Round recentRound) {
+    public static String printIndex(List<Timestamp> dates, LottoRound recentRound) {
         final Map<String, Object> model = new HashMap<String, Object>() {{
             put("price", Lotto.PRICE);
             put("priceFormatted", NumberFormat.getInstance().format(Lotto.PRICE));
@@ -37,7 +37,7 @@ public class WebView {
         return render(model, "app.html");
     }
 
-    private static String roundSelect(Round recentRound) {
+    private static String roundSelect(LottoRound recentRound) {
         final StringBuilder menu = new StringBuilder();
         menu.append("<option value=\"" + recentRound + "\" selected>" + recentRound + " 회</option>");
         for (int i = recentRound.val() - 1; i > 0; i--) {
@@ -52,27 +52,27 @@ public class WebView {
                         .reduce("", String::concat);
     }
 
-    public static String printPurchase(LottoPurchaseBill bill, WinningNumbers winningNumbers, LottoResult result) {
+    public static String printPurchase(LottoPurchaseBill bill) {
         final Map<String, Object> model = new HashMap<String, Object>() {{
             put("round", bill.round());
-            put("winningNumbers", WebView.formatWinningNumbers(winningNumbers));
+            put("winningNumbers", WebView.formatWinningNumbers(bill.winningNumbers()));
             put("purchasedLottos", WebView.formatLottos(bill.lottos()));
-            put("result", WebView.formatResult(result));
+            put("result", WebView.formatResult(bill.result()));
         }};
         return render(model, "result.html");
     }
 
-    public static String printHistory(LottoPurchaseBill bill, WinningNumbers winningNumbers, LottoResult result) {
+    public static String printHistory(LottoPurchaseBill bill) {
         final Map<String, Object> model = new HashMap<String, Object>() {{
             put("round", bill.round());
-            put("winningNumbers", WebView.formatWinningNumbers(winningNumbers));
+            put("winningNumbers", WebView.formatWinningNumbers(bill.winningNumbers()));
             put("purchasedLottos", WebView.formatLottos(bill.lottos()));
-            put("result", WebView.formatResult(result));
+            put("result", WebView.formatResult(bill.result()));
         }};
         return render(model, "result.html");
     }
 
-    public static String formatWinningNumbers(WinningNumbers winningNumbers) {
+    public static String formatWinningNumbers(LottoWinningNumbers winningNumbers) {
         final StringBuilder formatted = new StringBuilder();
         winningNumbers.mains().forEach(x -> formatted.append(
                 "<span class=\"ball color" + Integer.parseInt(x.toString()) / 10 + "\">" + x.toString() + "</span>"

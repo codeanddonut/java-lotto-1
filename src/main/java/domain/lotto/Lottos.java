@@ -21,7 +21,7 @@ public class Lottos implements Iterable<Lotto> {
         this.lottos = Collections.unmodifiableList(lottos);
     }
 
-    public LottoResult result(WinningNumbers winningNumbers) {
+    public LottoResult result(LottoWinningNumbers winningNumbers) {
         return new LottoResult(this, winningNumbers);
     }
 

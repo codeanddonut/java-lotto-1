@@ -3,11 +3,11 @@ package domain.lotto;
 import java.util.Collections;
 import java.util.List;
 
-public class WinningNumbers {
+public class LottoWinningNumbers {
     private final List<LottoNumber> winningNumbers;
-    private final Round round;
+    private final LottoRound round;
 
-    public WinningNumbers(List<LottoNumber> winningNumbers, Round round) {
+    public LottoWinningNumbers(List<LottoNumber> winningNumbers, LottoRound round) {
         this.winningNumbers = Collections.unmodifiableList(winningNumbers);
         this.round = round;
     }
@@ -20,7 +20,7 @@ public class WinningNumbers {
         return this.winningNumbers.get(Lotto.NUMBER_OF_PICKS);
     }
 
-    public Round round() {
+    public LottoRound round() {
         return this.round;
     }
 }

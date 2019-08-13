@@ -15,7 +15,7 @@ public class LottoPurchaseHistoryDAO {
     private static final String LOTTO_DELIMITER = "/";
     private static final String LOTTO_NUM_DELIMITER = ",";
 
-    public static void save(Round round, Lottos lottos) throws SQLException {
+    public static void save(LottoRound round, Lottos lottos) throws SQLException {
         final DBConnection dbConnection = DBConnection.getInstance();
         final PreparedStatement pstmt = dbConnection.connect().prepareStatement(
                 "INSERT INTO purchase_history (round, lottos) VALUES (?, ?)"
@@ -35,7 +35,10 @@ public class LottoPurchaseHistoryDAO {
         final ResultSet result = pstmt.executeQuery();
         LottoPurchaseBill bill = null;
         if (result.next()) {
-            bill = new LottoPurchaseBill(new Round(result.getInt(1)), decode(result.getString(2)));
+            bill = new LottoPurchaseBill(
+                    decode(result.getString(2)),
+                    LottoWinningNumbersFactory.of(new LottoRound(result.getInt(1)))
+            );
         }
         dbConnection.close();
         if (bill == null) {
