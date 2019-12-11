@@ -1,4 +1,4 @@
-package test;
+package testUtils;
 
 import domain.lotto.Lotto;
 import domain.lotto.LottoNumber;
