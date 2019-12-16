@@ -1,31 +1,30 @@
 package domain.lotto;
 
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class LottoResult implements Iterable<LottoResultPair> {
-    private final List<LottoResultPair> results;
+public class LottoResult implements Iterable<Map.Entry<LottoRank, Integer>> {
+    private final Map<LottoRank, Integer> results;
     private final Money purchasedAmount;
     private final Money totalEarned;
 
     public LottoResult(Lottos lottos, LottoWinningNumbers winningNumbers) {
         this.results = lottos.stream().map(l -> l.match(winningNumbers))
                                         .flatMap(r -> r.map(Stream::of).orElseGet(Stream::empty))
-                                        .collect(Collectors.groupingBy(LottoRank::prize))
-                                        .values().stream()
-                                        .map(l -> new LottoResultPair(l.get(0), l.size()))
                                         .collect(
-                                                Collectors.collectingAndThen(
-                                                        Collectors.toList(),
-                                                        Collections::unmodifiableList
+                                                Collectors.groupingBy(
+                                                        Function.identity(),
+                                                        Collectors.reducing(0, x -> 1, Integer::sum)
                                                 )
                                         );
         this.purchasedAmount = new Money(Lotto.PRICE * lottos.quantity());
         this.totalEarned = new Money(
-                this.results.stream().map(x -> x.rank().prize().amount() * x.number()).reduce(0, Integer::sum)
+                this.results.entrySet().stream().map(x ->
+                    x.getKey().prize().amount() * x.getValue()
+                ).reduce(0, Integer::sum)
         );
     }
 
@@ -42,7 +41,7 @@ public class LottoResult implements Iterable<LottoResultPair> {
     }
 
     @Override
-    public Iterator<LottoResultPair> iterator() {
-        return results.iterator();
+    public Iterator<Map.Entry<LottoRank, Integer>> iterator() {
+        return results.entrySet().iterator();
     }
 }
