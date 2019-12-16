@@ -42,7 +42,7 @@ public class LottoNumber implements Comparable<LottoNumber> {
         if (!(o instanceof LottoNumber)) {
             return false;
         }
-        LottoNumber rhs = (LottoNumber) o;
+        final LottoNumber rhs = (LottoNumber) o;
         return this.val == rhs.val;
     }
 

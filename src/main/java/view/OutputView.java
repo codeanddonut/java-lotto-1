@@ -27,16 +27,16 @@ public class OutputView {
     public static void printResult(Lottos lottos, LottoWinningNumbers winningNumbers) {
         final LottoResult result = lottos.result(winningNumbers);
         System.out.println("\n당첨 통계\n---------");
-        result.forEach(x -> {
+        result.forEach(x ->
             System.out.println(
-                    x.rank().numberOfMatches()
-                    + ((x.rank().equals(LottoRank.SECOND)) ? "개 일치, 보너스 볼 일치 (" : "개 일치 (")
-                    + NumberFormat.getInstance().format(x.rank().prize())
+                    x.getKey().numberOfMatches()
+                    + ((x.getKey().equals(LottoRank.SECOND)) ? "개 일치, 보너스 볼 일치 (" : "개 일치 (")
+                    + NumberFormat.getInstance().format(x.getKey().prize())
                     + "원) - "
-                    + x.number()
+                    + x.getValue()
                     + "개"
-            );
-        });
+            )
+        );
         System.out.format("총 수익률은 %d%%입니다.", Math.round(result.earningRate()));
     }
 }

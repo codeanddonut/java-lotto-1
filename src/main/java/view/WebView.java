@@ -100,11 +100,11 @@ public class WebView {
         final StringBuilder formatted = new StringBuilder("<br />");
         result.forEach(x ->
                 formatted.append(
-                        x.rank().numberOfMatches()
-                        + ((x.rank().equals(LottoRank.SECOND)) ? "개 일치, 보너스 볼 일치 (" : "개 일치 (")
-                        + numberFormat.apply(x.rank().prize().amount())
+                        x.getKey().numberOfMatches()
+                        + ((x.getKey().equals(LottoRank.SECOND)) ? "개 일치, 보너스 볼 일치 (" : "개 일치 (")
+                        + numberFormat.apply(x.getKey().prize().amount())
                         + "원) - "
-                        + x.number()
+                        + x.getValue()
                         + "개<br />"
                 )
         );

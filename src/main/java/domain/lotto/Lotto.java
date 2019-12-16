@@ -1,6 +1,11 @@
 package domain.lotto;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -25,12 +30,10 @@ public class Lotto {
         }
         this.numbers = (new ArrayList<>(numbers)).stream()
                                                 .sorted()
-                                                .collect(
-                                                        Collectors.collectingAndThen(
-                                                                Collectors.toList(),
-                                                                Collections::unmodifiableList
-                                                        )
-                                                );
+                                                .collect(Collectors.collectingAndThen(
+                                                        Collectors.toList(),
+                                                        Collections::unmodifiableList
+                                                ));
     }
 
     public Optional<LottoRank> match(LottoWinningNumbers winningNumbers) {

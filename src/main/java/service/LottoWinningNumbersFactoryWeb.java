@@ -18,8 +18,8 @@ import java.util.regex.Pattern;
 
 public class LottoWinningNumbersFactoryWeb {
     private static final String NANUM_LOTTERY_URL = "https://m.dhlottery.co.kr/gameResult.do?method=byWin";
-    private static final Pattern WINNING_NUMBERS_PATTERN = Pattern.compile(">[0-9]+<");
-    private static final Pattern ROUND_NUMBERS_PATTERN = Pattern.compile("<option value=\"[0-9]+\"  >");
+    private static final Pattern WINNING_NUMBERS_PATTERN = Pattern.compile(">\\d+<");
+    private static final Pattern ROUND_NUMBERS_PATTERN = Pattern.compile("<option value=\"\\d+\"  >");
 
     public static LottoWinningNumbers of(LottoRound round) {
         return fetch(round);
@@ -61,7 +61,7 @@ public class LottoWinningNumbersFactoryWeb {
 
     private static String winningNumbersHttpRequest(LottoRound round) throws IOException {
         final StringBuilder html = new StringBuilder();
-        final String roundAttr = (round.val() == LottoRound.RECENT_ROUND) ? "" : "&drwNo=" + round;
+        final String roundAttr = (round.val() == LottoRound.RECENT_ROUND) ? "" : "&drwNo=" + round.val();
         final HttpURLConnection con = (HttpURLConnection) new URL(NANUM_LOTTERY_URL + roundAttr).openConnection();
         final BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), "euc-kr"));
         for (String inputLine = ""; inputLine != null; inputLine = in.readLine()) {
